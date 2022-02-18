@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button class="btn btn-default"><i  id="MinusBtn" class="fas fa-minus"></i></button>
+                           <input   id="Phone" type="text" class="form-control text-center" value="1">
+                           <button  class="btn btn-default"><i id="PlusBtn" class="fas fa-plus"></i></button>
+                        </div>
+                        <h5>$ <span id="Phone-count">1219</span> </h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button class="btn btn-default"><i id="MinusOfCase" class="fas fa-minus"></i></button>
+                           <input id="Case" type="text"  class="form-control text-center"  value="1">
+                           <button class="btn btn-default"><i id="PlusOfCase" class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5 > $ <span id="Case-count">59</span> </h5>
+                        <img src="images/remove.png" alt="" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5>$  <span id="SpanOfSubTotal">1278</span> </h5>
+                        <h5>$ <span id="SpanOfTax">0</span> </h5>
+                        <h5>$ <span id="SpanOfTotal">1278</span> </h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <script>
+      document.getElementById('PlusBtn').addEventListener('click',()=>{
+         HandleOurWork('Phone',true);
+         //CalculateTotal();
+      });
+      document.getElementById('MinusBtn').addEventListener('click',()=>{
+         HandleOurWork('Phone',false);
+         //CalculateTotal();
+
+      })
+      document.getElementById('PlusOfCase').addEventListener('click',()=>{
+         HandleOurWork('Case',true);
+      })
+      document.getElementById('MinusOfCase').addEventListener('click',()=>{
+         HandleOurWork('Case',false);
+      })
+      function HandleOurWork(Product,isIncrease){
+         const ProductInput=document.getElementById(Product);
+         const ProductCount=parseInt(ProductInput.value);
+         let ProductNewCount=ProductCount;
+         if(isIncrease==true){
+            ProductNewCount=ProductNewCount+1;
+         }
+         if(isIncrease==false && ProductNewCount>0){
+            ProductNewCount=ProductNewCount-1;
+         }
+        ProductInput.value=ProductNewCount;
+        let ProductTotal=0;
+        if(Product=='Phone'){
+           ProductTotal=ProductNewCount*1219;
+        }
+        if(Product=='Case'){
+           ProductTotal=ProductNewCount*59;
+        }
+        document.getElementById(Product +'-count').innerText='$'+ProductTotal;
+        CalculateTotal();
+      }
+      function CalculateTotal(){
+         
+         const CaseCountPhoneNumber=HandleOurSource('Phone');
+         const CaseCountCaseNumber=HandleOurSource('Case');
+
+         const TotalPrice=CaseCountPhoneNumber*1219+CaseCountCaseNumber*59;
+         const STotal=document.getElementById('SpanOfSubTotal').innerText=TotalPrice;
+         const TTotal=document.getElementById('SpanOfTax').innerText=Math.round(TotalPrice*0.1);
+          document.getElementById('SpanOfTotal').innerText=STotal+TTotal;
+      }
+      function HandleOurSource(idFor){
+         const GiveInput=document.getElementById(idFor);
+         const GiveInputNumber=parseInt(GiveInput.value);
+         return GiveInputNumber;
+      }
+   </script>
+</body>
+
+</html>
